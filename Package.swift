@@ -1,4 +1,4 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 6.1
 import PackageDescription
 
 let package = Package(
@@ -9,7 +9,13 @@ let package = Package(
     targets: [
         .plugin(
             name: "PackageBuildInfoPlugin",
-            capability: .buildTool(),
+            capability: .command(
+                 intent: .sourceCodeFormatting(),
+                 permissions: [
+                     .writeToPackageDirectory(reason: "Generates git version info")
+                 ]
+            ),
+
             dependencies: ["PackageBuildInfo"]
         ),
         .binaryTarget(name: "PackageBuildInfo", path: "Binaries/PackageBuildInfo.artifactbundle"),
