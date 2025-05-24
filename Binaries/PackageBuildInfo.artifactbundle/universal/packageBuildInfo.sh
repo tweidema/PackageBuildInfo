@@ -57,7 +57,7 @@ function getGitInfo() {
     runGit "git show -s --format=%H:%ct"
     if [[ $exitCode == 0 && ${#output} != 0 ]]; then
         digest=${output%:*}
-        date=${output#*:}
+        #date=${output#*:}
     fi
 
     runGit "git rev-list --count HEAD"

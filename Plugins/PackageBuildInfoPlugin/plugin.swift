@@ -10,15 +10,15 @@ import Foundation
 struct PackageBuildInfoPlugin: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: Target) throws -> [Command] {
         guard let target = target as? SourceModuleTarget else { return [] }
-        let outputFile = context.pluginWorkDirectory.appending("packageBuildInfo.swift")
+        let outputFile = context.pluginWorkDirectoryURL.path(percentEncoded: false).appending("packageBuildInfo.swift")
 
         let command: Command = .prebuildCommand(
             displayName:
-                "Generating \(outputFile.lastComponent) for \(target.directory)",
+                "Generating \(outputFile.lastPathComponent) for \(target.directoryURL)",
             executable:
-                try context.tool(named: "PackageBuildInfo").path,
-            arguments: [ "\(target.directory)", "\(outputFile)" ],
-            outputFilesDirectory: context.pluginWorkDirectory
+                try context.tool(named: "PackageBuildInfo").url,
+            arguments: [ "\(target.directoryURL.path(percentEncoded: false))", "\(outputFile)" ],
+            outputFilesDirectory: context.pluginWorkDirectoryURL
         )
         return [command]
     }
