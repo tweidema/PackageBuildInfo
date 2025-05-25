@@ -9,7 +9,10 @@ import Foundation
 @main
 struct PackageBuildInfoPlugin: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: Target) throws -> [Command] {
-        guard let target = target as? SourceModuleTarget else { return [] }
+        guard let target = target as? SourceModuleTarget else {
+            print("Target is \(String(describing: target.self))")
+            return []
+        }
         let outputFile = context.pluginWorkDirectoryURL.path(percentEncoded: false).appending("packageBuildInfo.swift")
 
         let command: Command = .prebuildCommand(
